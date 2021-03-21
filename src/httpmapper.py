@@ -209,6 +209,7 @@ def extract_cookies():
 
 
 def extract_grabs(url, cookie):
+    '''Grab get or post.'''
     try: 
         esc = str(input("[*] GET or POST: ")).strip().lower() 
         if esc == 'post':
