@@ -19,8 +19,6 @@ try:
 except ImportError:
     os.system("pip install -r requirements.txt")
 
-# \033[31m
-
 def banner():
     os.system("cls")
     print('''\033[1;36m
@@ -227,7 +225,7 @@ def extract_grabs(url, cookie):
                 g.write(
                     f"{html.encode('utf-8')}") 
         else:
-            print("\n\033[31m[!] Request Failed, Exiting Program...\n\033[0m")
+            print("[!] Request Failed, Exiting Program...\n")
             exit(1)
     
     except Exception as e: 

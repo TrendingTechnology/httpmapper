@@ -1,7 +1,7 @@
 # httpmapper
-Httpmapper is a web crawler made using libs in python.
+httpmapper is a web crawler made using libs in python.
 
-<a href="https://github.com/vLeeH/GeoLocators/blob/main/src/api.py">Source code</a>
+<a href="https://github.com/The-Dark-Hall/httpmapper/blob/main/src/httpmapper.py">Source code</a>
 
 ## Functionallies
 Functionallies of this crawler 
