@@ -11,16 +11,19 @@ from collections import deque
 import socket
 import urllib.request as urllib2
 
+
 try:
     import requests
     from bs4 import BeautifulSoup
     import re
     import http.cookiejar
+    import subprocess
 except ImportError:
     os.system("pip install -r requirements.txt")
 
+
 def banner():
-    os.system("cls")
+    os.system("cls" if os.name == "nt" else "clear")
     print('''\033[1;36m
     ██╗  ██╗████████╗████████╗██████╗ ███╗   ███╗ █████╗ ██████╗ ██████╗ ███████╗██████╗ 
     ██║  ██║╚══██╔══╝╚══██╔══╝██╔══██╗████╗ ████║██╔══██╗██╔══██╗██╔══██╗██╔════╝██╔══██╗
@@ -28,20 +31,23 @@ def banner():
     ██╔══██║   ██║      ██║   ██╔═══╝ ██║╚██╔╝██║██╔══██║██╔═══╝ ██╔═══╝ ██╔══╝  ██╔══██╗
     ██║  ██║   ██║      ██║   ██║     ██║ ╚═╝ ██║██║  ██║██║     ██║     ███████╗██║  ██║
     ╚═╝  ╚═╝   ╚═╝      ╚═╝   ╚═╝     ╚═╝     ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝     ╚══════╝╚═╝  ╚═╝
-    by vLeeh
+    by vLeeH and Mednic
     \033[0m''')
-    
-#  Identify which browser is being used
+
+
+# Identify which browser is being used
 header = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36'
 }
 
 
-def extract_websites():
-    website = str(input('[*] Enter the URL of the website: ')).strip()
-    if website.startswith('http'): 
+def extract_websites(alvo):
+    '''Extract source codes of websites.'''
+    print('\033[1;36m+------------------------------------------+\033[0m')
+    print('\033[1;36m[+] Extacting WebServer:\033[0m')
+    if alvo.startswith('http' or 'https'): 
         try: 
-            source = requests.get(website).text
+            source = requests.get(alvo).text
             soup = BeautifulSoup(source, 'lxml')
             print(soup.prettify())
             with open("extract_websites.html", "at+", encoding="utf8") as h:
@@ -67,6 +73,8 @@ def extract_title(content):
 
 def extract_links(content):
     '''Get links of URL's '''
+    print('\033[1;36m+------------------------------------------+\033[0m')
+    print('\033[1;36m[+] Extraindo links:\033[0m')
     soup = BeautifulSoup(content, "lxml")
     links = set()  # Array but don't allow multiples elements
 
@@ -77,22 +85,24 @@ def extract_links(content):
     return links
 
 
-def get_links():
-    '''Create a log for links that are in the URL.'''
-    ques = str(input('[*] Enter the URL of the website: ')).strip()
-    page = requests.get(ques)
+def get_links(alvo):
+    '''Create a log for links that are in the URL'''
+    print('\033[1;36m+------------------------------------------+\033[0m')
+    print('\033[1;36m[+] Analisando links:\033[0m')
+    page = requests.get(alvo)
     links = extract_links(page.text)
     for link in links: 
         print(link)
         with open('links.txt', 'at+', encoding="utf8") as t: 
-            t.write(str(links))
+            t.write(f"{str(links)} \n")
 
 
-def crawler_links():
+def navigate_links(alvo):
     '''Function that navigate websites just using one URL.'''
-    start_url = str(input('[*] Enter the URL of the website: ')).strip()
-    seen_urls = set([start_url])
-    available_urls = set([start_url])
+    print('\033[1;36m+------------------------------------------+\033[0m')
+    print('\033[1;36m[+] Starting Crawler:\033[0m')
+    seen_urls = set([alvo])
+    available_urls = set([alvo])
     while available_urls:
         url = available_urls.pop()
         try:
@@ -118,81 +128,84 @@ def crawler_links():
                 available_urls.add(link)
 
 
-def extract_emails():
-    '''See URL's and emails.'''
-    user_url = str(input('[*] Enter Target URL to Scan: ')).strip()
+def extract_emails(alvo):
+    # See URL's and emails.
+    try: 
+        print('\033[1;36m+------------------------------------------+\033[0m')
+        print('\033[1;36m[+] Extracting emails:\033[0m')
+        if alvo.startswith('http' or 'https'):
+            try:
+                urls = deque([alvo])
+                count = 0
+                scraped_urls = set()
+                emails = set()
+                while len(urls):
+                    count += 1
+                    if count == 50:
+                        break
+                    url = urls.popleft()
+                    scraped_urls.add(url)
 
-    if user_url.startswith('http'):
-        try:
-            urls = deque([user_url])
-            count = 0
-            scraped_urls = set()
-            emails = set()
-            while len(urls):
-                count += 1
-                if count == 50:
-                    break
-                url = urls.popleft()
-                scraped_urls.add(url)
+                    parts = urllib.parse.urlsplit(url)
+                    base_url = "{0.scheme}://{0.netloc}".format(parts)
 
-                parts = urllib.parse.urlsplit(url)
-                base_url = "{0.scheme}://{0.netloc}".format(parts)
+                    path = url[: url.rfind("/") + 1] if "/" in parts.path else url
 
-                path = url[: url.rfind("/") + 1] if "/" in parts.path else url
+                    print("[%d] Processing %s" % (count, url))
+                    try:
+                        response = requests.get(url)
+                    except (
+                        requests.exceptions.MissingSchema,
+                        requests.exceptions.ConnectionError,
+                    ):
+                        continue
 
-                print("[%d] Processing %s" % (count, url))
-                try:
-                    response = requests.get(url)
-                except (
-                    requests.exceptions.MissingSchema,
-                    requests.exceptions.ConnectionError,
-                ):
-                    continue
-
-                new_emails = set(
-                    re.findall(
-                        r"[a-z0-9\.\-+]+@[a-z0-9\.\-+_]+\.[a-z]+", response.text, re.I
+                    new_emails = set(
+                        re.findall(
+                            r"[a-z0-9\.\-+]+@[a-z0-9\.\-+_]+\.[a-z]+", response.text, re.I
+                        )
                     )
-                )
-                emails.update(new_emails)
+                    emails.update(new_emails)
 
-                soup = BeautifulSoup(response.text, features="lxml")
+                    soup = BeautifulSoup(response.text, features="lxml")
 
-                for anchor in soup.find_all("a"):
-                    link = anchor.attrs["href"] if "href" in anchor.attrs else ""
-                    if link.startswith("/"):
-                        link = base_url + link
+                    for anchor in soup.find_all("a"):
+                        link = anchor.attrs["href"] if "href" in anchor.attrs else ""
+                        if link.startswith("/"):
+                            link = base_url + link
 
-                    elif not link.startswith("http"):
-                        link = path + link
+                        elif not link.startswith("http"):
+                            link = path + link
 
-                    if not link in urls and not link in scraped_urls:
-                        urls.append(link)
-                    
-        except KeyboardInterrupt:
-            print("[-] Closing")
+                        if not link in urls and not link in scraped_urls:
+                            urls.append(link)
+                        
+            except KeyboardInterrupt:
+                print("[-] Closing")
+                print()
+
+
+            for mail in emails:
+                print(emails)
+                with open("emails.txt", "at+", encoding="utf8") as e: 
+                    e.write(f"{emails} \n\r")
+
+        else: 
+            print('[-] Enter a avaible URL.')
             print()
+    
+    except Exception as e: 
+        print(f'[ERROR] {e}')
 
 
-        for mail in emails:
-            print(emails)
-            with open("emails.txt", "at+", encoding="utf8") as e: 
-                e.write(f"{emails} \n\r")
-
-    else: 
-        print('[-] Enter a avaible URL.')
-        print()
-
-
-def extract_cookies():
+def extract_cookies(alvo):
     '''Get name and values of emails.'''
-    URL = str(input('[*] Enter the URL of the website: ')).strip()
-    if URL.startswith('https'):
+    if alvo.startswith('http' or 'https'):
         try: 
             cookie_jar = http.cookiejar.CookieJar()
             url_opner = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(cookie_jar))
 
-            url_opner.open(URL)
+            url_opner.open(alvo)
             for cookie in cookie_jar: 
                 print("[+] Cookie Name = %s - Cookie Value = %s" %(cookie.name, cookie.value))
                 with open("cookie.txt", "at+", encoding="utf8") as c: 
@@ -204,30 +217,35 @@ def extract_cookies():
             print(f'[ERROR] {e}')
 
     else: 
-        print()
         print('[-] Enter an avaible URL.')
 
 
-def extract_grabs(url, cookie):
-    '''Grab get or post.'''
-    try: 
-        esc = str(input("[*] GET or POST: ")).strip().lower() 
-        if esc == 'post':
-            req = requests.post(url, cookies={'Cookie':cookie}, headers=header)
-        else:
-            req = requests.get(url, cookies={'Cookie':cookie}, headers=header)
+def extract_grabs(alvo, cookie):
+    '''Grab metadatas using URL and the Cookie.'''
+    print('\033[1;36m+------------------------------------------+\033[0m')
+    print('\033[1;36m[+] Analyzing Metadados:\033[0m')
+    if alvo.startswith('http' or 'https'):
+        try: 
+            esc = str(input("[*] GET or POST: ")).strip().lower() 
+            if esc == 'post':
+                req = requests.post(alvo, cookies={'Cookie':cookie}, headers=header)
+            else:
+                req = requests.get(alvo, cookies={'Cookie':cookie}, headers=header)
 
-        code = req.status_code
-        if code == 200:
-            html = req.text
-            print("\n[+] Request Succefully!\n")
-            print(html.encode('utf-8'))
-            with open("extract_grabs1.txt", "at+", encoding="utf8") as g: 
-                g.write(
-                    f"{html.encode('utf-8')}") 
-        else:
-            print("[!] Request Failed, Exiting Program...\n")
-            exit(1)
+            code = req.status_code
+            if code == 200:
+                html = req.text
+                print("\n[+] Request Succefully!\n")
+                print(html.encode('utf-8'))
+                with open("extract_grabs1.txt", "at+", encoding="utf8") as g: 
+                    g.write(
+                        f"{html.encode('utf-8')}") 
+            else:
+                print("[!] Request Failed, Exiting Program...\n")
+                exit(1)
+        
+        except Exception as e: 
+            print(f'[ERROR]{e}')
+    else: 
+        print('[-] Invalid URL.')
     
-    except Exception as e: 
-        print(f'[ERROR]{e}')
