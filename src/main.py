@@ -17,7 +17,7 @@ def httpmapper_main():
         extract_emails()
     elif question == 'cookies': 
         extract_cookies()
-    elif question == 'cookies': 
+    elif question == 'grabbing': 
         extract_grabs()
     else: 
         print('Enter a valid answer!')
