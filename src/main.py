@@ -5,7 +5,7 @@ from httpmapper import *
 
 def httpmapper_main():
     banner()
-    question = str(input('What do you want to know of the URL? [Website/Links/Navigate/Emails/Cookies/Grabbing] ')).lower().strip()
+    question = str(input('What do you want to know of the URL?[Website/Links/Navigate/Emails/Cookies/Grabbing] ')).lower().strip()
 
     if question == 'website': 
         extract_websites()
