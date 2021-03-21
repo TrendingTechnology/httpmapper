@@ -1,26 +1,30 @@
 #!/usr/bin/python
-# -*- coding utf-8 -*-
+# -- coding utf-8 --
 
 from httpmapper import *
+import time
 
-def httpmapper_main():
-    banner()
-    question = str(input('What do you want to know of the URL?[Website/Links/Navigate/Emails/Cookies/Grabbing] ')).lower().strip()
+banner()
+alvo = str(input('[*] Enter the website URL: ')).lower().strip()
 
-    if question == 'website': 
-        extract_websites()
-    elif question == 'links': 
-        get_links()
-    elif question == 'navigate':
-        crawler_links()
-    elif question == 'emails': 
-        extract_emails()
-    elif question == 'cookies': 
+def start():
+    time.sleep(0.50)
+    ask = str(input('[*] What do you want to know?[Website/Links/Navigate/Emails/Cookies/Grabbing] ')).lower().strip()
+
+    if ask == 'website': 
+        extract_websites(alvo)
+    elif ask == 'links': 
+        get_links(alvo)
+    elif ask == 'navigate':   
+        navigate_links(alvo)
+    elif ask == 'emails':
+        extract_emails(alvo)
+    elif ask == 'cookies':
         extract_cookies()
-    elif question == 'grabbing': 
-        extract_grabs()
+    elif ask == 'grabbing':
+        extract_grabs(alvo)
     else: 
-        print('Enter a valid answer!')
+        print('[-] Enter a valid answer.')
 
     print()
     options = str(input('Do you want to make a consultation again?[Y/N] ')).upper().strip()
@@ -36,6 +40,6 @@ def httpmapper_main():
         banner()
         print('Invalid option!')
 
-if __name__ == '__main__': 
-    httpmapper_main()
 
+if __name__=='__main__':
+    start()
