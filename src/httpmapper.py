@@ -11,7 +11,6 @@ from collections import deque
 import socket
 import urllib.request as urllib2
 
-
 try:
     import requests
     from bs4 import BeautifulSoup

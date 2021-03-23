@@ -20,7 +20,7 @@ def start():
     elif ask == 'emails':
         extract_emails(alvo)
     elif ask == 'cookies':
-        extract_cookies()
+        extract_cookies(alvo)
     elif ask == 'grabbing':
         extract_grabs(alvo)
     else: 
@@ -30,7 +30,7 @@ def start():
     options = str(input('Do you want to make a consultation again?[Y/N] ')).upper().strip()
     if options == 'Y':
         banner()
-        main()
+        start()
     
     elif options == 'N': 
         banner()
