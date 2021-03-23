@@ -222,7 +222,7 @@ def extract_cookies(alvo):
 def extract_grabs(alvo, cookie):
     '''Grab metadatas using URL and the Cookie.'''
     print('\033[1;36m+------------------------------------------+\033[0m')
-    print('\033[1;36m[+] Analyzing Metadados:\033[0m')
+    print('\033[1;36m[+] Analyzing Metadatas:\033[0m')
     if alvo.startswith('http' or 'https'):
         try: 
             esc = str(input("[*] GET or POST: ")).strip().lower() 

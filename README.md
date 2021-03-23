@@ -10,7 +10,7 @@ Functionallies of this crawler
 - Navigate in the web just using an URL.
 - Get e-mails of a Website.
 - See Cookies of a Website.
-- Grab POST and GET.
+- Grab metadatas.
 
 ## Installation
 **Python** - `3.8` 
