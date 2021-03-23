@@ -34,7 +34,7 @@ def banner():
     \033[0m''')
 
 
-# Identify which browser is being used
+# Identify which browser is being used.
 header = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36'
 }
@@ -128,7 +128,7 @@ def navigate_links(alvo):
 
 
 def extract_emails(alvo):
-    # See URL's and emails.
+    '''See URL's and emails.'''
     try: 
         print('\033[1;36m+------------------------------------------+\033[0m')
         print('\033[1;36m[+] Extracting emails:\033[0m')
