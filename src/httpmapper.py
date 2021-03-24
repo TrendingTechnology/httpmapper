@@ -34,7 +34,7 @@ def banner():
     \033[0m''')
 
 
-# Identify which browser is being used.
+# Identify which browser is being used
 header = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36'
 }
@@ -73,7 +73,7 @@ def extract_title(content):
 def extract_links(content):
     '''Get links of URL's '''
     print('\033[1;36m+------------------------------------------+\033[0m')
-    print('\033[1;36m[+] Extraindo links:\033[0m')
+    print('\033[1;36m[+] Extracting links:\033[0m')
     soup = BeautifulSoup(content, "lxml")
     links = set()  # Array but don't allow multiples elements
 
@@ -87,7 +87,7 @@ def extract_links(content):
 def get_links(alvo):
     '''Create a log for links that are in the URL'''
     print('\033[1;36m+------------------------------------------+\033[0m')
-    print('\033[1;36m[+] Analisando links:\033[0m')
+    print('\033[1;36m[+] Analizing links:\033[0m')
     page = requests.get(alvo)
     links = extract_links(page.text)
     for link in links: 
@@ -99,7 +99,7 @@ def get_links(alvo):
 def navigate_links(alvo):
     '''Function that navigate websites just using one URL.'''
     print('\033[1;36m+------------------------------------------+\033[0m')
-    print('\033[1;36m[+] Starting Crawler:\033[0m')
+    print('\033[1;36m[+] Starting the Navigate function:\033[0m')
     seen_urls = set([alvo])
     available_urls = set([alvo])
     while available_urls:
@@ -128,7 +128,7 @@ def navigate_links(alvo):
 
 
 def extract_emails(alvo):
-    '''See URL's and emails.'''
+    # See URL's and emails.
     try: 
         print('\033[1;36m+------------------------------------------+\033[0m')
         print('\033[1;36m[+] Extracting emails:\033[0m')
