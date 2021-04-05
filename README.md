@@ -4,7 +4,6 @@ httpmapper is a web crawler made using libs in python.
 <a href="https://github.com/vLeeH/httpmapper/blob/main/src/httpmapper.py">Source code</a>
 
 ## Functionallies
-Functionallies of this crawler:
 - Source code of an URL.
 - Links of a Website.
 - Navigate in the web just using an URL.
