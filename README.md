@@ -18,12 +18,12 @@ Functionallies of this crawler:
 $ git clone https://github.com/vLeeH/httpmapper.git 
 ```
 
-## Libraries
+### Libraries
 ```
 $ pip install -r requirements.txt
 ```
 
-## Compile 
+### Compile 
 ```
 $ python src/main.py
 ```
