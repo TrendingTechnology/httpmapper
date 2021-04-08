@@ -58,7 +58,6 @@ def extract_title(content):
     tag = soup.find("title", text=True)
     if not tag:
         return None
-
     return tag.string.strip()
 
 
@@ -68,11 +67,9 @@ def extract_links(content):
     print('\033[1;36m[+] Extracting links:\033[0m')
     soup = BeautifulSoup(content, "lxml")
     links = set()  # Array but don't allow multiples elements
-
     for tag in soup.find_all("a", href=True):
         if tag["href"].startswith("http"):
             links.add(tag["href"])
-
     return links
 
 
