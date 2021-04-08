@@ -1,35 +1,28 @@
 #!/usr/bin/python
 # -*- coding utf-8 -*-
 
-import argparse
-import time
 import os
-import time, datetime
-import urllib
+import time
+import urllib.request
 import urllib.parse
 from collections import deque
-import socket
-import urllib.request as urllib2
-
+import re
+from bs4 import *
 try:
     import requests
-    from bs4 import BeautifulSoup
-    import re
     import http.cookiejar
-    import subprocess
-except ImportError:
+except ImportError: 
     os.system("pip install -r requirements.txt")
 
 
 def banner():
     os.system("cls" if os.name == "nt" else "clear")
-    print('''\033[1;36m
+    print('''\033[31m
         | |__ | |_| |_ _ __  _ __ ___   __ _ _ __  _ __   ___ _ __ 
         | '_ \| __| __| '_ \| '_ ` _ \ / _` | '_ \| '_ \ / _ \ '__|
         | | | | |_| |_| |_) | | | | | | (_| | |_) | |_) |  __/ |   
         |_| |_|\__|\__| .__/|_| |_| |_|\__,_| .__/| .__/ \___|_|   
                       |_|                   |_|   |_|              
-    by vLeeH
     \033[0m''')
 
 
@@ -40,7 +33,7 @@ header = {
 
 
 def extract_websites(alvo):
-    '''Extract source codes of websites.'''
+    # Extract source codes of websites.
     print('\033[1;36m+------------------------------------------+\033[0m')
     print('\033[1;36m[+] Extacting WebServer:\033[0m')
     if alvo.startswith('http' or 'https'): 
@@ -51,8 +44,8 @@ def extract_websites(alvo):
             with open("extract_websites.html", "at+", encoding="utf8") as h:
                 h.write(str(soup.prettify))
 
-        except Exception as e: 
-            print(f'[ERROR] {e}')
+        except Exception as e:
+            print(e)
 
     else: 
         print()
@@ -60,7 +53,7 @@ def extract_websites(alvo):
 
 
 def extract_title(content):
-    '''Get HTML title of an URL.'''
+    # Get HTML title of an URL.
     soup = BeautifulSoup(content, "lxml")
     tag = soup.find("title", text=True)
     if not tag:
@@ -70,7 +63,7 @@ def extract_title(content):
 
 
 def extract_links(content):
-    '''Get links of URL's '''
+    # Get links of URL's
     print('\033[1;36m+------------------------------------------+\033[0m')
     print('\033[1;36m[+] Extracting links:\033[0m')
     soup = BeautifulSoup(content, "lxml")
@@ -84,7 +77,7 @@ def extract_links(content):
 
 
 def get_links(alvo):
-    '''Create a log for links that are in the URL'''
+    # Create a log for links that are in the URL
     print('\033[1;36m+------------------------------------------+\033[0m')
     print('\033[1;36m[+] Analizing links:\033[0m')
     page = requests.get(alvo)
@@ -92,15 +85,15 @@ def get_links(alvo):
     for link in links: 
         print(link)
         with open('links.txt', 'at+', encoding="utf8") as t: 
-            t.write(f"{str(links)} \n")
+            t.write(links + "\n")
 
 
 def navigate_links(alvo):
-    '''Function that navigate websites just using one URL.'''
+    # Function that navigate websites just using one URL.
     print('\033[1;36m+------------------------------------------+\033[0m')
     print('\033[1;36m[+] Starting the Navigate function:\033[0m')
-    seen_urls = set([alvo])
-    available_urls = set([alvo])
+    seen_urls = [alvo]
+    available_urls = [alvo]
     while available_urls:
         url = available_urls.pop()
         try:
@@ -112,23 +105,24 @@ def navigate_links(alvo):
         title = extract_title(content)
 
         if title:
-            print(f"[+] Title: {title}")
-            print(f"[+] URL: {url}")
-            with open("links-titles.txt", "at+", encoding="utf8") as l:
-                l.write(f"[+] Title: {title} \n\r [+] URL: {url}")
+            print("[+] Title: "+title)
+            print("[+] URL: "+url)
+            with open("links-titles.txt", "at+", encoding="utf8") as la:
+                la.write("[+] Title: "+title+"\n\r [+] URL:"+url)
 
-            time.sleep(1)
+            time.sleep(0.5)
             print()
 
         for link in extract_links(content):
             if link not in seen_urls:
-                seen_urls.add(link)
-                available_urls.add(link)
+                seen_urls.append(link)
+                available_urls.append(link)
 
 
 def extract_emails(alvo):
     # See URL's and emails.
-    try: 
+    global emails
+    try:
         print('\033[1;36m+------------------------------------------+\033[0m')
         print('\033[1;36m[+] Extracting emails:\033[0m')
         if alvo.startswith('http' or 'https'):
@@ -152,17 +146,10 @@ def extract_emails(alvo):
                     print("[%d] Processing %s" % (count, url))
                     try:
                         response = requests.get(url)
-                    except (
-                        requests.exceptions.MissingSchema,
-                        requests.exceptions.ConnectionError,
-                    ):
+                    except (requests.exceptions.MissingSchema, requests.exceptions.ConnectionError):
                         continue
 
-                    new_emails = set(
-                        re.findall(
-                            r"[a-z0-9\.\-+]+@[a-z0-9\.\-+_]+\.[a-z]+", response.text, re.I
-                        )
-                    )
+                    new_emails = set(re.findall(r"[a-z0-9\.\-+]+@[a-z0-9\.\-+_]+\.[a-z]+", response.text, re.I))
                     emails.update(new_emails)
 
                     soup = BeautifulSoup(response.text, features="lxml")
@@ -182,22 +169,21 @@ def extract_emails(alvo):
                 print("[-] Closing")
                 print()
 
-
             for mail in emails:
-                print(emails)
+                print(mail)
                 with open("emails.txt", "at+", encoding="utf8") as e: 
-                    e.write(f"{emails} \n\r")
+                    e.write(emails+" \n\r")
 
         else: 
             print('[-] Enter a avaible URL.')
             print()
     
-    except Exception as e: 
-        print(f'[ERROR] {e}')
+    except Exception: 
+        print('[ERROR]')
 
 
 def extract_cookies(alvo):
-    '''Get name and values of emails.'''
+    # Get name and values of emails.
     if alvo.startswith('http' or 'https'):
         try: 
             cookie_jar = http.cookiejar.CookieJar()
@@ -205,21 +191,21 @@ def extract_cookies(alvo):
 
             url_opner.open(alvo)
             for cookie in cookie_jar: 
-                print("[+] Cookie Name = %s - Cookie Value = %s" %(cookie.name, cookie.value))
+                print("[+] Cookie Name = %s - Cookie Value = %s" % (cookie.name, cookie.value))
                 with open("cookie.txt", "at+", encoding="utf8") as c: 
                     c.write(
-                        "[+] Cookie Name = %s - Cookie Value = %s \n\r" %(cookie.name, cookie.value))
+                        "[+] Cookie Name = %s - Cookie Value = %s \n\r" % (cookie.name, cookie.value))
 
-        except Exception as e: 
+        except Exception: 
             print()
-            print(f'[ERROR] {e}')
+            print('[ERROR]')
 
     else: 
         print('[-] Enter an avaible URL.')
 
 
 def extract_grabs(alvo, cookie):
-    '''Grab metadatas using URL and the Cookie.'''
+    # Grab metadatas using URL and the Cookie.
     print('\033[1;36m+------------------------------------------+\033[0m')
     print('\033[1;36m[+] Analyzing Metadatas:\033[0m')
     if alvo.startswith('http' or 'https'):
@@ -246,4 +232,3 @@ def extract_grabs(alvo, cookie):
             print(f'[ERROR]{e}')
     else: 
         print('[-] Invalid URL.')
-    

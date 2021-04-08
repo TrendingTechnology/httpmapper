@@ -1,5 +1,5 @@
 # Errors 
-You must use **python** 3.8 and install those requirements libraries.
+You must use **Python** 3.8 and install those requirements libraries.
 
 ## Contact 
 Discord - `Lee.#1001` <br>

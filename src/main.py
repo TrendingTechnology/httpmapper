@@ -7,6 +7,7 @@ import time
 banner()
 alvo = str(input('[*] Enter the website URL: ')).lower().strip()
 
+
 def start():
     time.sleep(0.50)
     ask = str(input('[*] What do you want to know?[Website/Links/Navigate/Emails/Cookies/Grabbing] ')).lower().strip()
@@ -41,5 +42,5 @@ def start():
         print('Invalid option!')
 
 
-if __name__=='__main__':
+if __name__ == '__main__':
     start()
