@@ -1,5 +1,5 @@
 # httpmapper
-httpmapper is a web crawler made in Python.
+httpmapper is a web crawler made in _Python_.
 
 <a href="https://github.com/vLeeH/httpmapper/blob/main/src/httpmapper.py">Source code</a>
 
