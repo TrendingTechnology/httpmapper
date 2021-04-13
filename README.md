@@ -14,17 +14,17 @@ httpmapper is a web crawler made in _Python_.
 ## Installation
 **Python** - `3.8` 
 ```
-$ git clone https://github.com/vLeeH/httpmapper.git 
+git clone https://github.com/vLeeH/httpmapper.git 
 ```
 
 ### Libraries
 ```
-$ pip install -r requirements.txt
+pip install -r requirements.txt
 ```
 
-### Compile 
+### Usage 
 ```
-$ python src/main.py
+python src/main.py
 ```
 
 ## Developers 
