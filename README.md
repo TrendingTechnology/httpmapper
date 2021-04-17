@@ -27,11 +27,8 @@
 **Python** - `3.8` 
 ```
 git clone https://github.com/vLeeH/httpmapper.git 
-```
-```
+cd httpmapper
 pip install -r requirements.txt
-```
-```
 python src/main.py
 ```
 
