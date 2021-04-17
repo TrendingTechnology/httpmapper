@@ -23,7 +23,7 @@ def start():
     elif ask == 'cookies':
         extract_cookies(alvo)
     elif ask == 'grabbing':
-        extract_grabs(alvo)
+        website_grabber(alvo)
     else: 
         print('[-] Enter a valid answer.')
 
