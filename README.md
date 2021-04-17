@@ -1,9 +1,4 @@
-<<<<<<< HEAD
 <h1 align="center">httpmapper</h1>
-=======
-# httpmapper
-httpmapper is a web crawler made in _Python_.
->>>>>>> c2a58e7626a060be088856ba4dea4d28808b9557
 
 <p align="center">
    <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/vleeh/MailBrute-Py">
