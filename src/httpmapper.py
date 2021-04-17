@@ -33,7 +33,7 @@ header = {
 
 
 def extract_websites(alvo):
-    # Extract source codes of websites.
+    '''Extract source codes of websites.'''
     print('\033[1;36m+------------------------------------------+\033[0m')
     print('\033[1;36m[+] Extacting WebServer:\033[0m')
     if alvo.startswith('http' or 'https'): 
@@ -53,7 +53,7 @@ def extract_websites(alvo):
 
 
 def extract_title(content):
-    # Get HTML title of an URL.
+    '''Get HTML title of an URL.'''
     soup = BeautifulSoup(content, "lxml")
     tag = soup.find("title", text=True)
     if not tag:
@@ -62,7 +62,7 @@ def extract_title(content):
 
 
 def extract_links(content):
-    # Get links of URL's
+    '''Get links of URL's'''
     print('\033[1;36m+------------------------------------------+\033[0m')
     print('\033[1;36m[+] Extracting links:\033[0m')
     soup = BeautifulSoup(content, "lxml")
@@ -74,7 +74,7 @@ def extract_links(content):
 
 
 def get_links(alvo):
-    # Create a log for links that are in the URL
+    '''Create a log for links that are in the URL'''
     print('\033[1;36m+------------------------------------------+\033[0m')
     print('\033[1;36m[+] Analizing links:\033[0m')
     page = requests.get(alvo)
@@ -82,11 +82,11 @@ def get_links(alvo):
     for link in links: 
         print(link)
         with open('links.txt', 'at+', encoding="utf8") as t: 
-            t.write(links + "\n")
+            t.write(f"{links} \n\r")
 
 
 def navigate_links(alvo):
-    # Function that navigate websites just using one URL.
+    '''Function that navigate websites just using one URL.'''
     print('\033[1;36m+------------------------------------------+\033[0m')
     print('\033[1;36m[+] Starting the Navigate function:\033[0m')
     seen_urls = [alvo]
@@ -117,7 +117,7 @@ def navigate_links(alvo):
 
 
 def extract_emails(alvo):
-    # See URL's and emails.
+    '''See URL's and emails.'''
     global emails
     try:
         print('\033[1;36m+------------------------------------------+\033[0m')
@@ -130,7 +130,7 @@ def extract_emails(alvo):
                 emails = set()
                 while len(urls):
                     count += 1
-                    if count == 50:
+                    if count == 100:
                         break
                     url = urls.popleft()
                     scraped_urls.add(url)
@@ -180,7 +180,7 @@ def extract_emails(alvo):
 
 
 def extract_cookies(alvo):
-    # Get name and values of emails.
+    '''Get name and values of emails.'''
     if alvo.startswith('http' or 'https'):
         try: 
             cookie_jar = http.cookiejar.CookieJar()
@@ -196,13 +196,17 @@ def extract_cookies(alvo):
         except Exception: 
             print()
             print('[ERROR]')
+        
+        finally: 
+            sleep(1)
+            print('[-] Cookie extracter finished!')
 
     else: 
         print('[-] Enter an avaible URL.')
 
 
-def extract_grabs(alvo, cookie):
-    # Grab metadatas using URL and the Cookie.
+def website_grabber(alvo, cookie):
+    '''Grab metadatas using URL and the Cookie.'''
     print('\033[1;36m+------------------------------------------+\033[0m')
     print('\033[1;36m[+] Analyzing Metadatas:\033[0m')
     if alvo.startswith('http' or 'https'):
@@ -227,5 +231,9 @@ def extract_grabs(alvo, cookie):
         
         except Exception as e: 
             print(f'[ERROR]{e}')
+        
+        finally: 
+            sleep(1)
+            print('[-] Website grabber finished!')
     else: 
         print('[-] Invalid URL.')
