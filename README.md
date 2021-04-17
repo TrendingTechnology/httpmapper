@@ -22,8 +22,6 @@
 - [X] See Cookies of a Website.
 - [X] Grab metadatas.
 
-<a href="https://github.com/vLeeH/httpmapper/blob/main/src/httpmapper.py">Source code</a>
-
 ## Installation
 **Python** - `3.8` 
 ```
