@@ -12,7 +12,7 @@
    <img alt="License" src="https://img.shields.io/github/license/vLeeH/Mail-Bruteforce.svg">
 </p>
 
-<img align="center" src="https://github.com/vleeh/httpmapper/.github/example.png">
+<img align="center" src="https://github.com/vLeeH/httpmapper/blob/main/.github/example.png">
 
 **httpmapper** is a web crawler made in Python.
 - [X] Source code of an URL.
