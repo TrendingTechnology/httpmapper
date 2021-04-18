@@ -39,4 +39,3 @@ Then choose which tool you want to use.
 
 ## Developers 
 Developed by <a href="https://github.com/vleeh">vLeeH</a>
-<footer>A</footer>
