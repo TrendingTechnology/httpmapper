@@ -37,5 +37,4 @@ Firstable run the file `main.py` and enter the website **URL.**
 
 Then choose which tool you want to use.
 
-<h2 align="center">Developers</h2>
-<p align="center">Developed by <a href="https://github.com/vleeh">vLeeH</a></p>
+<h2 align="center">By vLeeH</h2>
