@@ -32,7 +32,7 @@ pip install -r requirements.txt
 python src/main.py
 ```
 
-## How this works
+## How it works
 Firstable run the file `main.py` and enter the website **URL.**
 
 Then choose which tool you want to use.
