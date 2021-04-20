@@ -24,7 +24,7 @@
 - [X] Grab metadatas.
 
 ## Installation
-**Python** - `3.8` 
+**Python** >= `3.6` 
 ```
 git clone https://github.com/vLeeH/httpmapper.git 
 cd httpmapper
