@@ -23,7 +23,7 @@
 - [X] See Cookies of a Website.
 - [X] Grab metadatas.
 
-## Installation
+## Usage
 **Python** >= `3.6` 
 ```
 git clone https://github.com/vLeeH/httpmapper.git 
