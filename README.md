@@ -2,13 +2,9 @@
 
 <p align="center">
    <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/vleeh/httpmapper">
-
    <img alt="Repository size" src="https://img.shields.io/github/repo-size/vleeh/httpmapper">
-
    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/vleeh/httpmapper">
-
    <img alt="Language" src="https://img.shields.io/badge/Python-3.7%20%7C%203.8-blue.svg"> 
-    
    <img alt="License" src="https://img.shields.io/github/license/vLeeH/httpmapper.svg">
 </p>
 
