@@ -33,4 +33,4 @@ Firstable run the file `main.py` and enter the website **URL.**
 
 Then choose which tool you want to use.
 
-<h2 align="center">By vLeeH</h2>
+<h2 align="center"></> By vLeeH</h2>
